@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.work.mapper.GroupshipDao">
+  <insert id="insert" parameterType="com.work.bean.Groupship">
+   insert into tb_groupship(group_id,username) values(#{group_id},#{username});
+  </insert>
+  <delete id="delete" parameterType="com.work.bean.Groupship">
+   update tb_groupship set delete_state=1
+   <where>
+    group_id,username=#{group_id,username}
+         <if test="group_id!=null">and group_id=#{ group_id }</if>
+         <if test="username!=null">and username=#{ username }</if>
+       </where>
+  </delete>
+  <update id="update" parameterType="com.work.bean.Groupship">
+   update tb_groupship
+   <set>
+         <if test="group_id!=null">group_id=#{ group_id },</if>
+         <if test="username!=null">username=#{ username },</if>
+       </set>
+   <where>
+    group_id,username=#{group_id,username}
+         <if test="group_id!=null">and group_id=#{ group_id }</if>
+         <if test="username!=null">and username=#{ username }</if>
+       </where>
+  </update>
+  <select id="list" resultType="com.work.bean.Groupship" parameterType="com.work.bean.Groupship">
+   select group_id,username from tb_groupship
+   <where>
+         <if test="group_id!=null">and group_id=#{ group_id }</if>
+         <if test="username!=null">and username=#{ username }</if>
+       </where>
+  </select>
+  <select id="listByPage" resultType="com.work.bean.Groupship" parameterType="com.work.bean.Groupship">
+   select group_id,username from tb_groupship
+   <where>
+         <if test="group_id!=null">and group_id=#{ group_id }</if>
+         <if test="username!=null">and username=#{ username }</if>
+       </where>
+   limit #{offset},#{rows}
+  </select>
+  <select id="load" resultType="com.work.bean.Groupship" parameterType="com.work.bean.Groupship">
+   select group_id,username from tb_groupship
+   <where>
+         <if test="group_id!=null">and group_id=#{ group_id }</if>
+         <if test="username!=null">and username=#{ username }</if>
+       </where>
+   limit 0,1
+  </select>
+  <select id="count" resultType="int" parameterType="com.work.bean.Groupship">
+   select count(1) from tb_groupship
+   <where>
+         <if test="group_id!=null">and group_id = #{ group_id }</if>
+         <if test="username!=null">and username = #{ username }</if>
+       </where>
+  </select>
+ </mapper>
+ 

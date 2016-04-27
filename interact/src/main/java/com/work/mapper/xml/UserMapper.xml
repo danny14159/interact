@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.work.mapper.UserDao">
+  <insert id="insert" parameterType="com.work.bean.User">
+   insert into tb_user(name,password,avatar) values(#{name},#{password},#{avatar});
+  </insert>
+  <delete id="delete" parameterType="com.work.bean.User">
+   update tb_user set delete_state=1
+   <where>
+    name=#{name}
+         <if test="password!=null">and password=#{ password }</if>
+         <if test="avatar!=null">and avatar=#{ avatar }</if>
+       </where>
+  </delete>
+  <update id="update" parameterType="com.work.bean.User">
+   update tb_user
+   <set>
+         <if test="name!=null">name=#{ name },</if>
+         <if test="password!=null">password=#{ password },</if>
+         <if test="avatar!=null">avatar=#{ avatar },</if>
+       </set>
+   <where>
+    name=#{name}
+         <if test="password!=null">and password=#{ password }</if>
+         <if test="avatar!=null">and avatar=#{ avatar }</if>
+       </where>
+  </update>
+  <select id="list" resultType="com.work.bean.User" parameterType="com.work.bean.User">
+   select name,password,avatar from tb_user
+   <where>
+         <if test="name!=null">and name=#{ name }</if>
+         <if test="password!=null">and password=#{ password }</if>
+         <if test="avatar!=null">and avatar=#{ avatar }</if>
+       </where>
+  </select>
+  <select id="listByPage" resultType="com.work.bean.User" parameterType="com.work.bean.User">
+   select name,password,avatar from tb_user
+   <where>
+         <if test="name!=null">and name=#{ name }</if>
+         <if test="password!=null">and password=#{ password }</if>
+         <if test="avatar!=null">and avatar=#{ avatar }</if>
+       </where>
+   limit #{offset},#{rows}
+  </select>
+  <select id="load" resultType="com.work.bean.User" parameterType="com.work.bean.User">
+   select name,password,avatar from tb_user
+   <where>
+         <if test="name!=null">and name=#{ name }</if>
+         <if test="password!=null">and password=#{ password }</if>
+         <if test="avatar!=null">and avatar=#{ avatar }</if>
+       </where>
+   limit 0,1
+  </select>
+  <select id="count" resultType="int" parameterType="com.work.bean.User">
+   select count(1) from tb_user
+   <where>
+         <if test="name!=null">and name = #{ name }</if>
+         <if test="password!=null">and password = #{ password }</if>
+         <if test="avatar!=null">and avatar = #{ avatar }</if>
+       </where>
+  </select>
+ </mapper>
+ 

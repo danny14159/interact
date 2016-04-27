@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.work.mapper.FriendshipDao">
+  <insert id="insert" parameterType="com.work.bean.Friendship">
+   insert into tb_friendship(user1,user2) values(#{user1},#{user2});
+  </insert>
+  <delete id="delete" parameterType="com.work.bean.Friendship">
+   update tb_friendship set delete_state=1
+   <where>
+         <if test="user1!=null">and user1=#{ user1 }</if>
+         <if test="user2!=null">and user2=#{ user2 }</if>
+       </where>
+  </delete>
+  <update id="update" parameterType="com.work.bean.Friendship">
+   update tb_friendship
+   <set>
+         <if test="user1!=null">user1=#{ user1 },</if>
+         <if test="user2!=null">user2=#{ user2 },</if>
+       </set>
+   <where>
+    user1,user2=#{user1,user2}
+         <if test="user1!=null">and user1=#{ user1 }</if>
+         <if test="user2!=null">and user2=#{ user2 }</if>
+       </where>
+  </update>
+  <select id="list" resultType="com.work.bean.Friendship" parameterType="com.work.bean.Friendship">
+   select user1,user2 from tb_friendship
+   <where>
+         <if test="user1!=null">and user1=#{ user1 }</if>
+         <if test="user2!=null">and user2=#{ user2 }</if>
+       </where>
+  </select>
+  <select id="listByPage" resultType="com.work.bean.Friendship" parameterType="com.work.bean.Friendship">
+   select user1,user2 from tb_friendship
+   <where>
+         <if test="user1!=null">and user1=#{ user1 }</if>
+         <if test="user2!=null">and user2=#{ user2 }</if>
+       </where>
+   limit #{offset},#{rows}
+  </select>
+  <select id="load" resultType="com.work.bean.Friendship" parameterType="com.work.bean.Friendship">
+   select user1,user2 from tb_friendship
+   <where>
+         <if test="user1!=null">and user1=#{ user1 }</if>
+         <if test="user2!=null">and user2=#{ user2 }</if>
+       </where>
+   limit 0,1
+  </select>
+  <select id="count" resultType="int" parameterType="com.work.bean.Friendship">
+   select count(1) from tb_friendship
+   <where>
+         <if test="user1!=null">and user1 = #{ user1 }</if>
+         <if test="user2!=null">and user2 = #{ user2 }</if>
+       </where>
+  </select>
+ </mapper>
+ 
