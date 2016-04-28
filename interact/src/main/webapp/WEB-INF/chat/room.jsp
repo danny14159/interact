@@ -8,7 +8,7 @@
 <link href="/layim/css/layim.css" type="text/css" rel="stylesheet"/>
 </head>
 <body>
- <h1>即时通讯系统</h1>
+ <h2>即时通讯系统，欢迎你， ${me.name}</h2>
 
 <script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="/static/js/socket.io.js"></script>
@@ -17,14 +17,19 @@
 <script src="/layim/lay/layim.js"></script>
 <script type="text/javascript">
 
+var currentuser = '${me.name}';
+var currentface = '${me.avatar}';
+
 var socket = io.connect('http://localhost:9092');
 
 socket.on('chatevent', function(data) {
-    output('<span class="username-msg">' + data.userName + ' : </span>'
-            + data.message);
+    /* output('<span class="username-msg">' + data.userName + ' : </span>'
+            + data.message); */
+
+    receiveMessage(data);
 });
 
-function sendMessage() {
+/* function sendMessage() {
     var userName = $("#name").val()
     var message = $('#msg').val();
     $('#msg').val('');
@@ -32,13 +37,13 @@ function sendMessage() {
         userName : userName,
         message : message
     });
-}
+} */
 
-function output(message) {
+/* function output(message) {
     var currentTime = "<span class='time' >" + new Date() + "</span>";
     var element = $("<div>" + currentTime + " " + message + "</div>");
     $('#console').prepend(element);
-}
+} */
 </script>
 
 </body>

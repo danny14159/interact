@@ -4,7 +4,14 @@ public class ChatObject {
     private String fromUser;
     private String message;
     private String toUser;
-    /**
+    private String time;
+    public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
+	/**
      * single|group
      */
     private String type;

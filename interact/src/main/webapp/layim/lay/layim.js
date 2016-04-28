@@ -15,7 +15,7 @@ var config = {
     aniTime: 200,
     right: -232,
     api: {
-        friend: 'friend.json', //好友列表接口
+        friend: '/user/friend.json', //好友列表接口
         group: '/chat/group.json', //群组列表接口 
         chatlog: 'chatlog.json', //聊天记录接口
         groups: 'groups.json', //群组成员接口
@@ -381,7 +381,7 @@ xxim.getGroups = function(param){
 
 //消息传输
 xxim.transmit = function(){
-    var node = xxim.node, log = {};
+    var node = xxim.node; log = {};
     node.sendbtn = $('#layim_sendbtn');
     node.imwrite = $('#layim_write');
     
@@ -423,16 +423,23 @@ xxim.transmit = function(){
             
             log.imarea = xxim.chatbox.find('#layim_area'+ keys);
             
+            var now = new Date();
             log.imarea.append(log.html({
-                time: '2014-04-26 0:37',
-                name: config.user.name,
-                face: config.user.face,
+                time: now.getYear()+'-'+now.getMonth()+1+'-'+now.getDate()+' '+now.getHours()+':'+now.getMinutes()+':'+now.getSeconds(),
+                name: currentuser,
+                face: currentface,
                 content: data.content
             }, 'me'));
             node.imwrite.val('').focus();
             log.imarea.scrollTop(log.imarea[0].scrollHeight);
             
-            setTimeout(function(){
+            socket.emit('chatevent', {
+            	fromUser : currentuser,
+                message : data.content,
+                toUser : xxim.nowchat.name,
+            });
+            //
+            /*setTimeout(function(){
                 log.imarea.append(log.html({
                     time: '2014-04-26 0:38',
                     name: xxim.nowchat.name,
@@ -440,7 +447,7 @@ xxim.transmit = function(){
                     content: config.autoReplay[(Math.random()*config.autoReplay.length) | 0]
                 }));
                 log.imarea.scrollTop(log.imarea[0].scrollHeight);
-            }, 500);
+            }, 500);*/
             
             /*
             that.json(config.api.sendurl, data, function(datas){
@@ -458,6 +465,22 @@ xxim.transmit = function(){
         }
     });
 };
+
+win.receiveMessage = function(data){
+	
+	//判断是否是发给自己的消息
+	if(data.toUser == currentuser){
+		
+		log.imarea.append(log.html({
+			time: data.time,
+			name: xxim.nowchat.name,
+			face: xxim.nowchat.face,
+			content: data.message
+		}));
+		log.imarea.scrollTop(log.imarea[0].scrollHeight);
+	}
+	
+}
 
 //事件
 xxim.event = function(){

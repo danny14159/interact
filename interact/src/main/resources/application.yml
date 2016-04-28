@@ -1,7 +1,7 @@
 # Server settings  
 server:  
     port: 80
-    address: localhost  
+    #address: localhost  
   
 # DATASOURCE  
 jdbc:  
