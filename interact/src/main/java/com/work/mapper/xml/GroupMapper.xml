@@ -22,8 +22,8 @@
          <if test="name!=null">and name=#{ name }</if>
        </where>
   </update>
-  <select id="list" resultType="com.work.bean.Group" parameterType="com.work.bean.Group">
-   select id,name from tb_group
+  <select id="list" resultType="com.work.bean.Group" parameterType="map">
+   select id,name,face from tb_group
    <where>
          <if test="id!=null">and id=#{ id }</if>
          <if test="name!=null">and name=#{ name }</if>

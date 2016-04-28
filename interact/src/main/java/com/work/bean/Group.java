@@ -14,6 +14,16 @@ public class Group  {
 	 * 组名
 	 */
 	private String name;
+	
+	private String face;
+
+	public String getFace() {
+		return face;
+	}
+
+	public void setFace(String face) {
+		this.face = face;
+	}
 
 	public void setId(Integer id){
 		this.id=id;

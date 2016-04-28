@@ -16,7 +16,7 @@ var config = {
     right: -232,
     api: {
         friend: 'friend.json', //好友列表接口
-        group: 'group.json', //群组列表接口 
+        group: '/chat/group.json', //群组列表接口 
         chatlog: 'chatlog.json', //聊天记录接口
         groups: 'groups.json', //群组成员接口
         sendurl: '' //发送消息接口
@@ -551,7 +551,7 @@ xxim.getDates = function(index){
     config.json(api[index], {}, function(datas){
         if(datas.status === 1){
             var i = 0, myflen = datas.data.length, str = '', item;
-            if(myflen > 1){
+            if(myflen > 0){
                 if(index !== 2){
                     for(; i < myflen; i++){
                         str += '<li data-id="'+ datas.data[i].id +'" class="xxim_parentnode">'

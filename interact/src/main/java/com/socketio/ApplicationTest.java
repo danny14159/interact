@@ -15,6 +15,8 @@ public class ApplicationTest {
 		listner.setServer(server);
 		// chatevent为事件名称
 		server.addEventListener("chatevent", ChatObject.class, listner);
+			
+		server.addConnectListener(new OnlineListener());
 		// 启动服务
 		server.start();
 

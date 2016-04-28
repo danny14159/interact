@@ -1,31 +1,37 @@
 package com.socketio;
 
 public class ChatObject {
-    private String userName;
+    private String fromUser;
     private String message;
+    private String toUser;
+    /**
+     * single|group
+     */
+    private String type;
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getFromUser() {
+		return fromUser;
+	}
+	public void setFromUser(String fromUser) {
+		this.fromUser = fromUser;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getToUser() {
+		return toUser;
+	}
+	public void setToUser(String toUser) {
+		this.toUser = toUser;
+	}
 
-    public ChatObject() {
-    }
 
-    public ChatObject(String userName, String message) {
-        super();
-        this.userName = userName;
-        this.message = message;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
