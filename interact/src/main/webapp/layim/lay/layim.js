@@ -384,6 +384,26 @@ xxim.transmit = function(){
     var node = xxim.node; log = {};
     node.sendbtn = $('#layim_sendbtn');
     node.imwrite = $('#layim_write');
+    var keys = xxim.nowchat.type + xxim.nowchat.id;
+    log.imarea = xxim.chatbox.find('#layim_area'+ keys);
+    log.html = function(param, type){
+    	return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
+    	+'<div class="layim_chatuser">'
+    	+ function(){
+    		if(type === 'me'){
+    			return '<span class="layim_chattime">'+ param.time +'</span>'
+    			+'<span class="layim_chatname">'+ param.name +'</span>'
+    			+'<img src="'+ param.face +'" >';
+    		} else {
+    			return '<img src="'+ param.face +'" >'
+    			+'<span class="layim_chatname">'+ param.name +'</span>'
+    			+'<span class="layim_chattime">'+ param.time +'</span>';      
+    		}
+    	}()
+    	+'</div>'
+    	+'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
+    	+'</li>';
+    };
     
     //发送
     log.send = function(){
@@ -399,29 +419,9 @@ xxim.transmit = function(){
             node.imwrite.focus();
         } else {
             //此处皆为模拟
-            var keys = xxim.nowchat.type + xxim.nowchat.id;
             
             //聊天模版
-            log.html = function(param, type){
-                return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
-                    +'<div class="layim_chatuser">'
-                        + function(){
-                            if(type === 'me'){
-                                return '<span class="layim_chattime">'+ param.time +'</span>'
-                                       +'<span class="layim_chatname">'+ param.name +'</span>'
-                                       +'<img src="'+ param.face +'" >';
-                            } else {
-                                return '<img src="'+ param.face +'" >'
-                                       +'<span class="layim_chatname">'+ param.name +'</span>'
-                                       +'<span class="layim_chattime">'+ param.time +'</span>';      
-                            }
-                        }()
-                    +'</div>'
-                    +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
-                +'</li>';
-            };
             
-            log.imarea = xxim.chatbox.find('#layim_area'+ keys);
             
             var now = new Date();
             log.imarea.append(log.html({
@@ -469,7 +469,7 @@ xxim.transmit = function(){
 win.receiveMessage = function(data){
 	
 	//判断是否是发给自己的消息
-	if(data.toUser == currentuser){
+	if(data.toUser == currentuser && data.fromUser == xxim.nowchat.name){
 		
 		log.imarea.append(log.html({
 			time: data.time,

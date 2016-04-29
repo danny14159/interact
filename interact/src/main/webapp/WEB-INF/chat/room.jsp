@@ -20,12 +20,10 @@
 var currentuser = '${me.name}';
 var currentface = '${me.avatar}';
 
-var socket = io.connect('http://localhost:9092');
+var socket = io.connect('http://192.168.110.62:9092');
 
 socket.on('chatevent', function(data) {
-    /* output('<span class="username-msg">' + data.userName + ' : </span>'
-            + data.message); */
-
+	console.log(data);
     receiveMessage(data);
 });
 
