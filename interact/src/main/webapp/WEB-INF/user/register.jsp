@@ -10,11 +10,15 @@
 
 输入你的用户名：
 <input type="text" id="username"/>
-<button onclick="register();">注册</button>
+密码：<input type="password" id="password"/>
+<button onclick="register();">登录</button>
 
 <script type="text/javascript" src="/static/js/jquery-1.8.3.js"></script>
 <script type="text/javascript">
 function register(){
+	if(password != '123456'){
+		return alert('密码错误');
+	}
 	$.post('',{
 		username:$('#username').val()
 	},function(data){
