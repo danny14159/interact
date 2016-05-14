@@ -22,6 +22,7 @@ import com.work.mapper.BasicDao;
 import com.work.mapper.UserDao;
 import com.work.util.AjaxReturn;
 import com.work.util.M;
+import com.work.util.Strings;
 
 @Controller
 @RequestMapping("/user")
@@ -54,19 +55,23 @@ public class UserController extends BasicController<User>{
 	 */
 	@RequestMapping(value="/register",method=RequestMethod.POST)
 	@ResponseBody
-	public Object register(String username,HttpServletRequest request){
+	public Object register(String username,String password,HttpServletRequest request){
+		
+		if(Strings.isBlank(username) || Strings.isBlank(password)){
+			
+			return new AjaxReturn(false, "用户名或者密码不能为空");
+		}
 		
 		int cnt = UserDao.count(M.make("name", username).asMap());
 		User u = null;
 		
 		if(cnt > 0){
-			u = UserDao.load(M.make("name", username).asMap());
-			WebUtils.setSessionAttribute(request, "me", u);
-			return new AjaxReturn(true, /*"用户名已被使用"*/null);
+			return new AjaxReturn(false, "用户名已被使用");
 		}
 		
 		u = new User();
 		u.setName(username);
+		u.setPassword(password);
 		
 		Random r = new Random();
 		u.setAvatar(avatars.get(r.nextInt(avatars.size())));
@@ -75,9 +80,27 @@ public class UserController extends BasicController<User>{
 		return AjaxReturn.ok(UserDao.insert(u), null, null);
 	}
 	
+	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@ResponseBody
+	public Object login(String username,String password,HttpServletRequest request){
+		
+		User u = UserDao.load(M.make("name", username).put("password", password).asMap());
+		
+		if(null == u){
+			return new AjaxReturn(false, "用户名或者密码错误");
+		}
+		WebUtils.setSessionAttribute(request, "me", u);
+		return new AjaxReturn(true,null);
+	}
+	
 	@RequestMapping(value="/register",method=RequestMethod.GET)
 	public String register(){
 		return "user/register";
+	}
+	
+	@RequestMapping(value="/login",method=RequestMethod.GET)
+	public String login(){
+		return "user/login";
 	}
 	
 	@RequestMapping("/friend.json")
